@@ -16,9 +16,10 @@ class Shoplist:
 
         id = int(list_id)
 
-        iterator = db.execute('SELECT items.title as item, items.category_id as category FROM shoplists '
-                              'INNER JOIN shoplists_items ON shoplists.id = ? '
+        iterator = db.execute('SELECT items.id, items.title, items.category_id as category FROM shoplists '
+                              'INNER JOIN shoplists_items ON shoplists.id = shoplists_items.shoplist_id '
                               'INNER JOIN items on shoplists_items.item_id = items.id '
+                              'WHERE shoplists.id = ? ORDER BY items.title ASC'
                               , (id,)).fetchall()
 
         return iterator

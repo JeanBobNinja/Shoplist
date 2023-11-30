@@ -7,5 +7,7 @@ class Categories:
     @output(list)
     def get_categories(ids: list):
         db = get_db()
-        iterator = db.execute(f'SELECT * FROM categories WHERE id in ({", ".join("?" for _ in ids)})', ids).fetchall()
+        iterator = db.execute(f'SELECT * FROM categories '
+                              f'WHERE id in ({", ".join("?" for _ in ids)}) '
+                              f'ORDER BY title ASC', ids).fetchall()
         return iterator

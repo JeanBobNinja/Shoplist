@@ -1,21 +1,20 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
-function ShoplistTile(props) {
+export default function ShoplistTile({id, image, title}) {
 
   return (
-    <a href="">
+    <Link to={`shoplists/${id}`}>
       <div className="card text-center">
         <div className="card-body">
           <div>
-            <img src={props.image}/>
+            <img src={image}/>
           </div>
           <div>
-            <span>{props.title}</span>
+            <span>{title}</span>
           </div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
-
-export default ShoplistTile;

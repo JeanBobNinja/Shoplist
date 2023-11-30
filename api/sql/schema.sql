@@ -24,6 +24,7 @@ CREATE TABLE categories (
 CREATE TABLE shoplists_items (
     shoplist_id INTEGER NOT NULL,
     item_id INTEGER NOT NULL,
+    PRIMARY KEY (shoplist_id, item_id),
     FOREIGN KEY (shoplist_id) REFERENCES shoplists(id),
     FOREIGN KEY (item_id) REFERENCES items(id)
 );
