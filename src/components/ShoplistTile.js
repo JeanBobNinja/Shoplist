@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-export default function ShoplistTile({id, image, title}) {
+export default function ShoplistTile({id, image, name}) {
 
   return (
     <Link to={`shoplists/${id}`}>
@@ -11,7 +11,7 @@ export default function ShoplistTile({id, image, title}) {
             <img src={image}/>
           </div>
           <div>
-            <span>{title}</span>
+            <span>{name}</span>
           </div>
         </div>
       </div>

@@ -23,7 +23,7 @@ export default function Shoplist() {
   const {shoplist} = useLoaderData();
 
   const getItemsByCategory = (catId) => {
-    return shoplist.items.filter(i => i.category === catId)
+    return shoplist.items.filter(i => i.category_id === catId)
   }
 
   const onChangeItems = (category) => {
@@ -73,6 +73,15 @@ export default function Shoplist() {
     }
   }
 
+  let body = <div><span>No items.</span></div>
+  if(shoplist.items.length !== 0) {
+    body = shoplist.categories?.map((c) =>
+              <div key={c.id} className="col-3">
+                <CategoryTile key={c.id} name={c.name} items={getItemsByCategory(c.id)} onChange={onChangeItems(c.name)}/>
+              </div>
+            )
+  }
+
   return (
   <div style={{display: "flex"}}>
     <div className="d-flex flex-column">
@@ -81,11 +90,7 @@ export default function Shoplist() {
     </div>
     <div className="container b-example-divider">
       <div className="row mt-3">
-        {shoplist.categories?.map((c) =>
-          <div key={c.id} className="col-3">
-            <CategoryTile key={c.id} image={c.image} title={c.title} items={getItemsByCategory(c.id)} onChange={onChangeItems(c.title)}/>
-          </div>
-        )}
+        {body}
       </div>
     </div>
     <ToastContainer newestOnTop position="top-center" hideProgressBar="true" autoClose="1000" theme="dark"/>

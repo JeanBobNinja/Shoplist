@@ -32,7 +32,7 @@ function Shoplists() {
       <div className="row mt-3">
         {shoplists.map(i =>
           <div key={i.id} className="col-3">
-            <ShoplistTile id={i.id} title={i.title} image={i.image}/>
+            <ShoplistTile id={i.id} name={i.name} image={i.image}/>
           </div>
         )}
       </div>
