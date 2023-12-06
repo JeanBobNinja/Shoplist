@@ -3,6 +3,7 @@ import {useLoaderData, Link} from "react-router-dom";
 import Category from "../components/Category"
 import {ToastContainer, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import CategoryNew from "../components/CategoryNew"
 
 export async function loader({params}) {
 
@@ -18,9 +19,41 @@ export async function loader({params}) {
 }
 
 export default function Shoplist() {
+  const {id, shoplist} = useLoaderData();
+
+  const [categories, setCategories] = useState(shoplist.categories)
+  const [onlyDefaultCategory, setOnlyDefaultCategory] = useState(false)
+
+  const [newCategory, setNewCategory] = useState(false)
+  const [newCategoryChildId, setNewCategoryChildId] = useState(null)
+  const [gridChildren, setGridChildren] = useState([])
+
+
   const [selectedItems, setSelectedItems] = useState({})
 
-  const {id, shoplist} = useLoaderData();
+  useEffect(() => {
+    setOnlyDefaultCategory(categories.length === 1 && categories[0]['name'] === '_')
+    const children = []
+    categories.map((c) =>
+      children.push(<Category
+          shoplistId={id}
+          id={c.id}
+          name={c.name}
+          items={getItemsByCategory(c.id)}
+          mode="view"
+          onChange={onChangeItems(c.name)}
+          onlyDefaultCategory={onlyDefaultCategory}
+        />
+      )
+    )
+
+    setGridChildren(children)
+
+  }, [categories])
+
+  useEffect(() => {
+    
+  }, [gridChildren])
 
   const getItemsByCategory = (catId) => {
     return shoplist.items.filter(i => i.category_id === catId)
@@ -63,7 +96,8 @@ export default function Shoplist() {
     return str
   }
 
-  const doExport = () => {
+  const doExport = (e) => {
+    e.preventDefault()
     const dumped = dumpSelectedItems()
     if(!dumped) {
       toast.error("Nothing selected")
@@ -73,39 +107,44 @@ export default function Shoplist() {
     }
   }
 
-  let body = <div><span>No items.</span></div>
-  const onlyDefaultCategory = shoplist.categories.length === 1 && shoplist.categories[0]['name'] === '_'
-
-  if(shoplist.items.length !== 0) {
-    body = shoplist.categories?.map((c) =>
-              <div key={c.id} className="col-3">
-                <Category
-                  key={c.id}
-                  shoplistId={id}
-                  id={c.id}
-                  name={c.name}
-                  items={getItemsByCategory(c.id)}
-                  mode="view"
-                  onChange={onChangeItems(c.name)}
-                  onlyDefaultCategory={onlyDefaultCategory}
-                />
-              </div>
-            )
+  const removeNewCategory = () => {
+    console.log(newCategoryChildId)
+    const newChildren = [...gridChildren]
+    newChildren.splice(newCategoryChildId, 1)
+    setGridChildren(newChildren)
+    setNewCategory(false)
   }
 
+  const addCategory = (e) => {
+    e.preventDefault()
+    if(newCategory) return
+
+    setNewCategory(true)
+    const newChildren = [...gridChildren]
+    const newChildId = newChildren.push(<CategoryNew shoplistId={id} closeCallback={removeNewCategory}/>) - 1
+    console.log(newChildId)
+    setNewCategoryChildId(newChildId)
+    setGridChildren(newChildren)
+  }
+
+
+
+  let body = <div><span>No items.</span></div>
+
   return (
-  <div style={{display: "flex"}}>
-    <div className="d-flex flex-column">
-      <Link to="/">Home</Link>
-      <a href="#" className="nav-item" onClick={doExport}>Export</a>
-    </div>
-    <div className="container b-example-divider">
-      <div className="row mt-3">
-        {body}
+    <div style={{display: "flex"}}>
+      <div className="d-flex flex-column">
+        <Link to="/">Home</Link>
+        <a href="" className="nav-item" onClick={doExport}>Export</a>
+        <a href="" className="nav-item" onClick={addCategory}>Add category</a>
       </div>
+      <div className="container b-example-divider">
+        <div className="row mt-3">
+          {gridChildren.map((c, index) => <div key={index} id={index} className="col-3">{c}</div>)}
+        </div>
+      </div>
+      <ToastContainer newestOnTop position="top-center" hideProgressBar="true" autoClose="1000" theme="dark"/>
     </div>
-    <ToastContainer newestOnTop position="top-center" hideProgressBar="true" autoClose="1000" theme="dark"/>
-  </div>
   );
 
 }

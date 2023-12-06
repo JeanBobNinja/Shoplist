@@ -3,9 +3,8 @@ import {Link} from "react-router-dom";
 import './ItemEdit.css'
 
 
-export default function ItemNew({name, callback}) {
-  if(!name) name = "";
-  const [value, setValue] = useState(name)
+export default function ItemNew({callback}) {
+  const [value, setValue] = useState("")
 
   const onInput = (e) => {
     setValue(e.target.value)
@@ -33,10 +32,6 @@ export default function ItemNew({name, callback}) {
       <div className="me-auto">
         <input type="text" placeholder="New item..." value={value} onInput={onInput} onKeyDown={onKeyDown} />
       </div>
-      { value.length !== 0 ? <div className="d-flex flex-row">
-        <i onClick={() => setValue("")}>N</i>
-        <i onClick={() => submit(value)}>Y</i>
-      </div>: null }
     </div>
   )
 }

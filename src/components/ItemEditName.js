@@ -29,10 +29,6 @@ export default function ItemEditName({name, callback}) {
       <div className="me-auto">
         <input type="text" defaultValue={itemName} onInput={onInput} onKeyDown={onKeyDown} autoFocus/>
       </div>
-      <div className="d-flex flex-row">
-        <i onClick={() => callback(null)}>N</i>
-        <i onClick={() => submit(itemName)}>Y</i>
-      </div>
     </div>
   )
 }

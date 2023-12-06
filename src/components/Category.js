@@ -6,6 +6,7 @@ import ItemNew from './ItemNew'
 
 export default function Category({shoplistId, id, name, items, onChange, onlyDefaultCategory, mode}) {
   const [edit, setEdit] = useState(mode === 'edit')
+
   const [itemsList, setItemsList] = useState(items)
 
   function newItem(name) {
@@ -36,11 +37,11 @@ export default function Category({shoplistId, id, name, items, onChange, onlyDef
   return (
     <div className="card text">
       <div className="card-body">
-        <div className="d-flex bd-highlight">
-          <div className="me-auto bd-highlight">
+        <div className="d-flex">
+          <div className="me-auto">
             <span>{name}</span>
           </div>
-          <div className="bd-highlight">
+          <div>
             <button type="icon" onClick={()=>setEdit(!edit)}>Edit</button>
           </div>
         </div>
