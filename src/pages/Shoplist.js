@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useLoaderData, Link} from "react-router-dom";
-import CategoryTile from "../components/CategoryTile"
+import Category from "../components/Category"
 import {ToastContainer, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -13,14 +13,14 @@ export async function loader({params}) {
   } catch(error) {
     shoplist = null;
   }
-  return { shoplist };
+  return { id: params.shoplistId, shoplist: shoplist };
 
 }
 
 export default function Shoplist() {
   const [selectedItems, setSelectedItems] = useState({})
 
-  const {shoplist} = useLoaderData();
+  const {id, shoplist} = useLoaderData();
 
   const getItemsByCategory = (catId) => {
     return shoplist.items.filter(i => i.category_id === catId)
@@ -79,7 +79,16 @@ export default function Shoplist() {
   if(shoplist.items.length !== 0) {
     body = shoplist.categories?.map((c) =>
               <div key={c.id} className="col-3">
-                <CategoryTile key={c.id} name={c.name} items={getItemsByCategory(c.id)} onChange={onChangeItems(c.name)} onlyDefaultCategory={onlyDefaultCategory}/>
+                <Category
+                  key={c.id}
+                  shoplistId={id}
+                  id={c.id}
+                  name={c.name}
+                  items={getItemsByCategory(c.id)}
+                  mode="view"
+                  onChange={onChangeItems(c.name)}
+                  onlyDefaultCategory={onlyDefaultCategory}
+                />
               </div>
             )
   }
