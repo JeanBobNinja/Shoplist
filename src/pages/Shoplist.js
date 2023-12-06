@@ -74,10 +74,12 @@ export default function Shoplist() {
   }
 
   let body = <div><span>No items.</span></div>
+  const onlyDefaultCategory = shoplist.categories.length === 1 && shoplist.categories[0]['name'] === '_'
+
   if(shoplist.items.length !== 0) {
     body = shoplist.categories?.map((c) =>
               <div key={c.id} className="col-3">
-                <CategoryTile key={c.id} name={c.name} items={getItemsByCategory(c.id)} onChange={onChangeItems(c.name)}/>
+                <CategoryTile key={c.id} name={c.name} items={getItemsByCategory(c.id)} onChange={onChangeItems(c.name)} onlyDefaultCategory={onlyDefaultCategory}/>
               </div>
             )
   }
