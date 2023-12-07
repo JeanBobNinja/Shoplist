@@ -19,7 +19,7 @@ CREATE TABLE items (
 
 CREATE TABLE categories (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL DEFAULT "_",
+    name TEXT NOT NULL,
     shoplist_id INTEGER NOT NULL,
     FOREIGN KEY (shoplist_id) REFERENCES shoplists(id)
 );

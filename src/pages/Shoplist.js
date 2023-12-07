@@ -48,8 +48,6 @@ export default function Shoplist() {
 
   let body = <div><span>No items.</span></div>
 
-  const onlyDefaultCategory = shoplist.categories.length === 1 && shoplist.categories[0]['name'] === '_'
-
   return (
     <div style={{display: "flex"}}>
       <div className="d-flex flex-column">
@@ -65,7 +63,6 @@ export default function Shoplist() {
                 data={{id: c.id, name: c.name}}
                 items={getItemsByCategory(c.id)}
                 mode="view"
-                onlyDefaultCategory={onlyDefaultCategory}
                 reload={reload}
               />
             </div>)

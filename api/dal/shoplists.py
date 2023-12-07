@@ -17,8 +17,6 @@ class Shoplists:
         cursor = db.cursor()
         try:
             cursor.execute('INSERT INTO shoplists (name) VALUES (?)', (name,))
-            s_id = cursor.lastrowid
-            cursor.execute('INSERT INTO categories (shoplist_id) VALUES (?)', (s_id, ))
         except Exception as e:
             db.rollback()
             raise e

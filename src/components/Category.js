@@ -5,7 +5,7 @@ import ItemEdit from './ItemEdit'
 import ItemNew from './ItemNew'
 
 
-export default function Category({shoplistId, data, items, onChange, onlyDefaultCategory, mode, close, reload}) {
+export default function Category({shoplistId, data, items, onChange, mode, close, reload}) {
   const [edit, setEdit] = useState(mode === 'edit')
   const [current, setCurrent] = useState(data)
   const [itemsList, setItemsList] = useState(items)
@@ -45,11 +45,6 @@ export default function Category({shoplistId, data, items, onChange, onlyDefault
       </>
     )
   }
-
-  if(onlyDefaultCategory) {
-    return renderItemsList()
-  }
-
 
   return (
     <div className="card text" onMouseEnter={() => setShowEditButton(true)} onMouseLeave={()=>setShowEditButton(false)}>
