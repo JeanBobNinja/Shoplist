@@ -5,6 +5,18 @@ from ..utils import output
 class Categories:
 
     @staticmethod
+    @output(list)
+    def find_by_shoplist(sid: int):
+        sid = int(sid)
+
+        db = get_db()
+        iterator = db.execute('SELECT c.id, c.name FROM shoplists AS s '
+                              'INNER JOIN categories AS c on c.shoplist_id = s.id '
+                              'WHERE s.id = ?'
+                              , (sid,)).fetchall()
+
+        return iterator
+    @staticmethod
     def add(shoplist_id, name):
         shoplist_id = int(shoplist_id)
 

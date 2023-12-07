@@ -5,14 +5,15 @@ from ..utils import output
 class Items:
     @staticmethod
     @output(list)
-    def find_all_by_shoplist(id: int):
-        id = int(id)
+    def find_by_shoplist(sid: int):
+        sid = int(sid)
 
         db = get_db()
-        iterator = db.execute('SELECT id, name, category_id FROM items '
-                              'WHERE shoplist_id = ? '
-                              'ORDER BY name ASC'
-                              , (id,)).fetchall()
+        iterator = db.execute('SELECT i.id, i.name, i.category_id FROM shoplists AS s '
+                              'INNER JOIN categories AS c on c.shoplist_id = s.id '
+                              'INNER JOIN items AS i on i.category_id = c.id '
+                              'WHERE s.id = ?'
+                              , (sid,)).fetchall()
 
         return iterator
 
