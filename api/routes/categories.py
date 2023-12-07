@@ -4,12 +4,22 @@ from . import blueprint
 
 from ..dal.categories import Categories
 
-@blueprint.route('/categories/<int:id>', methods=['PATCH'])
-def update_category(id: int):
+@blueprint.route('/shoplists/<int:sid>/categories', methods=['POST'])
+def add_category(sid: int):
     data = request.form
     name = data.get('name')
     if not name:
         abort(400, "Missing name")
 
-    Categories.update(id, name)
+    new_id = Categories.add(sid, name)
+    return {"id": new_id}
+
+@blueprint.route('/shoplists/<int:sid>/categories/<int:cid>', methods=['PATCH'])
+def update_category(sid: int, cid: int):
+    data = request.form
+    name = data.get('name')
+    if not name:
+        abort(400, "Missing name")
+
+    Categories.update(sid, cid, name)
     return {"status": "ok"}

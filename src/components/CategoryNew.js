@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 
 
-export default function CategoryNew({shoplistId, closeCallback}) {
+export default function CategoryNew({shoplistId, onSubmit, closeCallback}) {
   const [value, setValue] = useState("")
 
   const onInput = (e) => {
@@ -13,7 +13,7 @@ export default function CategoryNew({shoplistId, closeCallback}) {
     if(e.key === 'Enter') {
       if(value.length !== 0) {
         setValue("")
-        return submit(e.target.value)
+        return onSubmit(e.target.value.trim())
       }
       e.target.blur()
     }
@@ -24,9 +24,7 @@ export default function CategoryNew({shoplistId, closeCallback}) {
     }
   }
 
-  const submit = (newValue) => console.log(newValue)
-
-  const close = (e) => {
+  const onClose = (e) => {
     e.preventDefault()
     closeCallback()
   }
@@ -34,7 +32,7 @@ export default function CategoryNew({shoplistId, closeCallback}) {
   return (
     <div className="card position-relative">
       <div className="card-overlay">
-        <a href="" className="position-absolute top-0 end-0" onClick={close}>x</a>
+        <a href="" className="position-absolute top-0 end-0" onClick={onClose}>x</a>
       </div>
       <div className="card-body">
         <div className="d-flex">
