@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {useLoaderData, Link, useRevalidator} from "react-router-dom";
 import Category from "../components/Category"
+import CategoryNew from "../components/CategoryNew"
 import {ToastContainer, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import CategoryNew from "../components/CategoryNew"
 
 export async function loader({params}) {
 
@@ -34,12 +34,15 @@ export default function Shoplist() {
     setShowNewCategory(true)
   }
 
-  const removeNewCategoryCard = () => {
-    setShowNewCategory(false)
+  async function doNewCategory(name) {
+    const body = new FormData()
+    body.append("name", name)
+    const response = await fetch(`/shoplists/${id}/categories`, {method: "POST", body})
+    reload()
   }
 
-  const onSubmitNewCategory = () => {
-    removeNewCategoryCard()
+  const reload = () => {
+    setShowNewCategory(false)
     revalidator.revalidate()
   }
 
@@ -63,10 +66,11 @@ export default function Shoplist() {
                 items={getItemsByCategory(c.id)}
                 mode="view"
                 onlyDefaultCategory={onlyDefaultCategory}
+                reload={reload}
               />
             </div>)
           }
-          {showNewCategory ? <div className="col-3"><Category shoplistId={id} close={removeNewCategoryCard} onSubmit={onSubmitNewCategory} /></div>: null}
+          {showNewCategory ? <div className="col-3"><CategoryNew shoplistId={id} close={()=>setShowNewCategory(false)} onSubmit={(name) => doNewCategory(name)}/></div>: null}
         </div>
       </div>
       <ToastContainer newestOnTop position="top-center" hideProgressBar="true" autoClose="1000" theme="dark"/>

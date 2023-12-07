@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import './ItemEdit.css'
 
 
-export default function ItemNew({callback}) {
+export default function ItemNew({shoplistId, categoryId, addToList}) {
   const [value, setValue] = useState("")
 
   const onInput = (e) => {
@@ -25,7 +25,16 @@ export default function ItemNew({callback}) {
     }
   }
 
-  const submit = (newValue) => callback(newValue.trim())
+  const submit = (newValue) => {
+    (async () => {
+      const body = new FormData()
+      body.append("name", newValue)
+      const response = await fetch(`/shoplists/${shoplistId}/categories/${categoryId}/items`, {method: "POST", body})
+      const {id} = await response.json()
+      addToList({id: id, name: newValue, category_id: categoryId})
+    })();
+
+  }
 
   return (
     <div className="d-flex">

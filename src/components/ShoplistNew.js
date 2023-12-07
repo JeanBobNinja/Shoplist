@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
-import {Link} from "react-router-dom";
 
-
-export default function CategoryNew({shoplistId, onSubmit, close}) {
+export default function ShoplistNew({onSubmit, close}) {
   const [value, setValue] = useState("")
 
   const onInput = (e) => {
@@ -31,12 +29,13 @@ export default function CategoryNew({shoplistId, onSubmit, close}) {
   }
 
   return (
-    <div className="card position-relative">
+    <div className="card text-center">
       <div className="card-body">
-        <div className="d-flex">
-          <input type="text" placeholder="New category..." value={value} onInput={onInput} onKeyDown={onKeyDown} autoFocus/>
+        <div>
+          <input type="text" value={value} onInput={onInput} onKeyDown={onKeyDown} autoFocus/>
         </div>
       </div>
     </div>
-  )
+  );
 }
+

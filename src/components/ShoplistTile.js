@@ -1,11 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 
-export default function ShoplistTile({id, image, name}) {
+export default function ShoplistTile({id, image, name, reload}) {
+  const [showEditButton, setShowEditButton] = useState(false)
 
+
+  async function deleteShoplist() {
+    await fetch(`/shoplists/${id}`, {method: "DELETE"})
+    reload()
+  }
   return (
-    <Link to={`shoplists/${id}`}>
-      <div className="card text-center">
+
+    <div className="card text-center" onMouseEnter={() => setShowEditButton(true)} onMouseLeave={()=>setShowEditButton(false)}>
+      {showEditButton ? <div><button onClick={()=>deleteShoplist()}>X</button></div>: null}
+      <Link to={`shoplists/${id}`}>
         <div className="card-body">
           <div>
             <img src={image}/>
@@ -14,7 +22,7 @@ export default function ShoplistTile({id, image, name}) {
             <span>{name}</span>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
