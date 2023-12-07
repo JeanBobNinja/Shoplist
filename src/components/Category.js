@@ -58,8 +58,8 @@ export default function Category({shoplistId, data, items, onChange, onlyDefault
           <div className="me-auto">
             <span>{current.name}</span>
           </div>
-          {edit ? <div><button onClick={()=>deleteCategory()}>X</button></div>: null}
-          {showEditButton || edit ? <div><button onClick={()=>setEdit(!edit)}>Edit</button></div>: null}
+          {edit ? <div><button onClick={()=>deleteCategory()}>Del.</button></div>: null}
+          {showEditButton || edit ? <div><button onClick={()=>setEdit(!edit)}>{!edit ? "Edit": "View"}</button></div>: null}
         </div>
         {renderItemsList()}
       </div>
